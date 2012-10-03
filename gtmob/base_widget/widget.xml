@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding = "utf-8" ?>
+<widget title="MRS - Mobile Response System">
+	<library name="jquery"/>
+    <library name="gtmob"/>
+	<javascript file="index.js"/>
+	<css file="main.css"/>    
+    <html file="index.html"/>
+    
+    <!-- jquery mobile has to be after the html file -->
+    <library name="jquery.mobile"/>
+    
+    <manifest>
+    
+    </manifest>
+</widget>

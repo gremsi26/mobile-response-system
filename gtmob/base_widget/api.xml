@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<api>
+        <description>
+                <![CDATA[This is an API to show the values of all the parameters passed in]]>
+        </description>
+        <command id='test/stuff' security='public'>
+                <index>
+                        <description><![CDATA[This simple action shows all passed parameters for an index call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "INDEX:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </index>
+                <get>
+                        <description><![CDATA[This simple action shows all passed parameters for a get call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "GET:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </get>
+                <post>
+                        <description><![CDATA[This simple action shows all passed parameters for a post call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "POST:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </post>
+                <put>
+                        <description><![CDATA[This simple action shows all passed parameters for a put call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "PUT:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </put>
+                <delete>
+                        <description><![CDATA[This simple action shows all passed parameters for a delete call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "DELETE:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </delete>
+
+                <index>
+                        <description><![CDATA[This simple action shows all passed parameters for an index call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "INDEX:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </index>
+                <get>
+                        <description><![CDATA[This simple action shows all passed parameters for a get call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "GET:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </get>
+                <post>
+                        <description><![CDATA[This simple action shows all passed parameters for a post call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "POST:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </post>
+                <put>
+                        <description><![CDATA[This simple action shows all passed parameters for a put call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "PUT:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </put>
+                <delete>
+                        <description><![CDATA[This simple action shows all passed parameters for a delete call ]]></description>
+                        <action file="test.php"><![CDATA[
+                                print "DELETE:";
+                                print "<br>";
+                                test();
+                        ]]></action>
+                </delete>
+        </command>
+
+	
+	<command id='createsession' security='protected'>
+
+		<index>
+			<description><![CDATA[This action is used to create a new session with the given name and returns a session ID]]></description>
+			<action file="action.php"><![CDATA[
+				echo createSession();
+			]]></action>
+		</index>
+			
+	</command>
+	
+
+	<command id='deletesession' security='protected'>
+		<index>
+			<description><![CDATA[This lets you delete a session]]></description>
+			<action file="action.php"><![CDATA[
+				$deleteResult = deleteSession();
+				if($deleteResult == 0)
+					echo "Session successfully deleted";
+				elseif($deleteResult == 1)
+					echo "Error deleting session";
+			]]></action>
+		</index>
+	</command>
+
+</api>

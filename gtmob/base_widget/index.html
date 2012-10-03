@@ -1,0 +1,124 @@
+<!-- no need to include head or body tags -->
+<div data-role="page" id="mainPage">
+    <div data-role='header' data-position='inline' data-theme='a'>
+	    <!--<a href="#" data-icon='alert' data-transition="pop">GTLogin</a>-->
+	    <h1>MRS</h1>
+	    <!--<a href="#" data-icon='add' data-transition="pop">Other</a>-->
+   	</div>
+	
+	<div data-role="content">
+		<form name="go" id="main_form">
+			<div id="formcontent">
+				<ul data-role="listview" data-inset="true">
+					<li><a href="#professorPage">(Administrate) I am a Professor</a></li>
+					<li><a href="#studentPage">(Participate) I am a Student</a></li>
+				</ul>
+				<!--<input type="button" name="test" value="Professors"  data-icon="arrow-r" data-iconpos="right" data-corners="false" data-theme="b" onclick="professors()">
+				<input type="button" name="test" value="Students" data-icon="arrow-r" data-iconpos="right" data-corners="false" data-theme="b" onclick="students()">
+			    <input type="button" name="test" value="Simple Index" onclick="simpleIndex()">
+				<input type="button" name="test" value="Simple Get" onclick="simpleGet()">
+				<input type="button" name="test" value="Simple Post" onclick="simplePost()">
+				<input type="button" name="test" value="Simple Put" onclick="simplePut()">
+				<input type="button" name="test" value="Simple Delete" onclick="simpleDelete()">
+				-->
+			</div>
+		</form>
+		<div id='IndexResult'></div>
+		<div id='GetResult'></div>
+		<div id='PostResult'></div>
+		<div id='PutResult'></div>
+		<div id='DeleteResult'></div>
+	</div>
+</div>
+
+<div data-role="page" id="professorPage">
+	<div data-role="header" data-position="inline" data-theme="a">
+		<h1>MRS - Professors<h1>
+	</div>
+	<div data-role="content">
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#createPage">Create a Session</a></li>
+			<li><a href="#runPage">Run a Created Session</a></li>
+			<li><a href="#reviewPage">Review a Finished Session</a></li>
+		</ul>
+	</div>
+</div>
+
+<div data-role="page" id="studentPage">
+	<div data-role="header" data-position="inline" data-theme="a">
+		<h1>MRS - Students<h1>
+	</div>
+	<div data-role="content">
+		<form>
+			<h2>Join Session ID:</h2>
+			<input type="text" name="sessionID">
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+</div>
+
+<div data-role="page" id="createPage">
+	<div data-role="header" data-position="inline" data-theme="a">
+		<h1>MRS - Create a Session<h1>
+	</div>
+	<div data-role="content">
+		<form>
+			<h2>Create Session ID:</h2>
+			<input type="text" name="sessionID">
+			<input type="submit" value="Submit">
+		</form>
+		<h2>Question 1</h2>
+		<ul>
+			<li>A</li>
+			<li>B</li>
+			<li>C</li>
+			<li><input type="button" value="+ Add Choice"></li>
+		</ul>
+		<input type="button" value="+ Add Question">
+		<input type="button" value="Run">
+	</div>
+</div>
+
+<div data-role="page" id="runPage">
+	<div data-role="header" data-position="inline" data-theme="a">
+		<h1>MRS - Students<h1>
+	</div>
+	<div data-role="content">
+		<ul data-role="listview">
+			<li>
+				<h3>Session# ABJ34K</h3>
+				<p>All your favorites from aarkvarks to zebras.</p>
+			</li>
+			<li>
+				<h3>Session# ABJ34K</h3>
+				<p>All your favorites from aarkvarks to zebras.</p>
+			</li>
+			<li>
+				<h3>Session# ABJ34K</h3>
+				<p>All your favorites from aarkvarks to zebras.</p>
+			</li>		
+		</ul>
+	</div>
+</div>
+
+<div data-role="page" id="reviewPage">
+	<div data-role="header" data-position="inline" data-theme="a">
+		<h1>MRS - Students<h1>
+	</div>
+	<div data-role="content">
+		<ul data-role="listview">
+			<li>
+				<h3>Session# ABJ34K</h3>
+				<p>All your favorites from aarkvarks to zebras.</p>
+			</li>
+			<li>
+				<h3>Session# ABJ34K</h3>
+				<p>All your favorites from aarkvarks to zebras.</p>
+			</li>
+			<li>
+				<h3>Session# ABJ34K</h3>
+				<p>All your favorites from aarkvarks to zebras.</p>
+			</li>		
+		</ul>
+	</div>
+</div>

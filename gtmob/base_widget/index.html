@@ -7,44 +7,27 @@
    	</div>
 	
 	<div data-role="content">
-		<form name="go" id="main_form">
-			<div id="formcontent">
-				<ul data-role="listview" data-inset="true">
-					<li><a href="#professorPage">(Administrate) I am a Professor</a></li>
-					<li><a href="#studentPage">(Participate) I am a Student</a></li>
-				</ul>
-				<!--<input type="button" name="test" value="Professors"  data-icon="arrow-r" data-iconpos="right" data-corners="false" data-theme="b" onclick="professors()">
-				<input type="button" name="test" value="Students" data-icon="arrow-r" data-iconpos="right" data-corners="false" data-theme="b" onclick="students()">
-			    <input type="button" name="test" value="Simple Index" onclick="simpleIndex()">
-				<input type="button" name="test" value="Simple Get" onclick="simpleGet()">
-				<input type="button" name="test" value="Simple Post" onclick="simplePost()">
-				<input type="button" name="test" value="Simple Put" onclick="simplePut()">
-				<input type="button" name="test" value="Simple Delete" onclick="simpleDelete()">
-				-->
-			</div>
-		</form>
-		<div id='IndexResult'></div>
-		<div id='GetResult'></div>
-		<div id='PostResult'></div>
-		<div id='PutResult'></div>
-		<div id='DeleteResult'></div>
+		<ul data-role="listview" data-inset="true">
+			<li><a href="#professorPage">(Administrate) I am a Professor</a></li>
+			<li><a href="#studentPage">(Participate) I am a Student</a></li>
+		</ul>
 	</div>
 </div>
 
-<div data-role="page" id="professorPage">
+<div data-role="page" data-add-back-btn="true" id="professorPage">
 	<div data-role="header" data-position="inline" data-theme="a">
 		<h1>MRS - Professors<h1>
 	</div>
 	<div data-role="content">
 		<ul data-role="listview" data-inset="true">
 			<li><a href="#createPage">Create a Session</a></li>
-			<li><a href="#runPage">Run a Created Session</a></li>
+			<li><a href="#runPage">Run a Saved Session</a></li>
 			<li><a href="#reviewPage">Review a Finished Session</a></li>
 		</ul>
 	</div>
 </div>
 
-<div data-role="page" id="studentPage">
+<div data-role="page" data-add-back-btn="true" id="studentPage">
 	<div data-role="header" data-position="inline" data-theme="a">
 		<h1>MRS - Students<h1>
 	</div>
@@ -57,14 +40,14 @@
 	</div>
 </div>
 
-<div data-role="page" id="createPage">
+<div data-role="page" data-add-back-btn="true" id="createPage">
 	<div data-role="header" data-position="inline" data-theme="a">
 		<h1>MRS - Create a Session<h1>
 	</div>
 	<div data-role="content">
 		<form>
-			<h2>Create Session ID:</h2>
-			<input type="text" name="sessionID">
+			<h2>Enter a Key to Generate Session ID:</h2>
+			<input type="text" name="session_key">
 			<input type="submit" value="Submit">
 		</form>
 		<h2>Question 1</h2>
@@ -79,9 +62,9 @@
 	</div>
 </div>
 
-<div data-role="page" id="runPage">
+<div data-role="page" data-add-back-btn="true" id="runPage">
 	<div data-role="header" data-position="inline" data-theme="a">
-		<h1>MRS - Students<h1>
+		<h1>MRS - Run a Saved Session<h1>
 	</div>
 	<div data-role="content">
 		<ul data-role="listview">
@@ -101,9 +84,9 @@
 	</div>
 </div>
 
-<div data-role="page" id="reviewPage">
+<div data-role="page" data-add-back-btn="true" id="reviewPage">
 	<div data-role="header" data-position="inline" data-theme="a">
-		<h1>MRS - Students<h1>
+		<h1>MRS - Review a Finished Session<h1>
 	</div>
 	<div data-role="content">
 		<ul data-role="listview">

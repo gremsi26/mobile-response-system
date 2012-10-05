@@ -87,7 +87,21 @@
                 </delete>
         </command>
 
-	
+	<command id='sessions' security='protected'>
+		<index>
+			<description><![CDATA[This action gets all the sessions and their URIs.]]></description>
+			<action file="action.php"><![CDATA[
+				echo getAllSessions();
+			]]></action>
+		</index>	
+
+		<put>
+			<description><!CDATA[Adds a new session.]]></description>
+			<action file="action.php"><![CDATA[
+				echo putSession();
+			]]></action>
+		</put>
+			
 	<command id='createsession' security='protected'>
 
 		<index>

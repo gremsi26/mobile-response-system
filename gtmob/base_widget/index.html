@@ -1,23 +1,24 @@
 <!-- no need to include head or body tags -->
 <div data-role="page" id="mainPage">
-    <div data-role='header' data-position='inline' data-theme='a'>
+    <div data-role='header' data-theme='a'>
 	    <!--<a href="#" data-icon='alert' data-transition="pop">GTLogin</a>-->
-	    <h1>MRS</h1>
+	    <h1>MobRS</h1>
 	    <!--<a href="#" data-icon='add' data-transition="pop">Other</a>-->
    	</div>
 	
 	<div data-role="content">
 		<ul data-role="listview" data-inset="true">
-			<li><a href="#professorPage">(Administrate) I am a Professor</a></li>
-			<li><a href="#studentPage">(Participate) I am a Student</a></li>
+			<li><a href="#professorPage">[Administrate] Professors</a></li>
+			<li><a href="#studentPage">[Participate] Students</a></li>
 		</ul>
 	</div>
 </div>
 
+
 <div data-role="page" data-add-back-btn="true" id="professorPage">
-	<div data-role="header" data-position="inline" data-theme="a">
-		<h1>MRS - Professors<h1>
-	</div>
+	<div data-role="header">
+		<h1>MobRS</h1>
+	</div><!-- /header -->
 	<div data-role="content">
 		<ul data-role="listview" data-inset="true">
 			<li><a href="#createPage">Create a Session</a></li>
@@ -27,45 +28,57 @@
 	</div>
 </div>
 
-<div data-role="page" data-add-back-btn="true" id="studentPage">
-	<div data-role="header" data-position="inline" data-theme="a">
-		<h1>MRS - Students<h1>
+<div data-role="page" data-add-back-btn="true" id="activeSessionStudentPage">
+	<div data-role="header">
+		<h1>MobRS</h1>
+	<a href="index.html" data-icon="refresh" data-theme="b" class="ui-btn-right">Refresh</a>
+	</div><!-- /header -->
+	<div data-role="content">
+		<form align="center">
+			No active question.
+		<input type="button"  data-theme="b" data-icon="delete" value="Exit Session" onclick="">
+	
+		</form>
 	</div>
+</div>
+
+
+<div data-role="page" data-add-back-btn="true" id="studentPage">
+	<div data-role="header">
+		<h1>MobRS</h1>
+	</div><!-- /header -->
 	<div data-role="content">
 		<form>
-			<h2>Join Session ID:</h2>
+			<h3>Session ID:</h3>
 			<input type="text" name="sessionID">
-			<input type="submit" value="Submit">
+			<input type="submit" value="Join">
 		</form>
 	</div>
 </div>
 
 <div data-role="page" data-add-back-btn="true" id="createPage">
-	<div data-role="header" data-position="inline" data-theme="a">
-		<h1>MRS - Create a Session<h1>
-	</div>
+	<div data-role="header">
+		<h1>MobRS</h1>
+	<a href="index.html" data-icon="check" data-theme="b" class="ui-btn-right">Save</a>
+	</div><!-- /header -->
+
 	<div data-role="content">
 		<form>
-			<h2>Enter a Key to Generate Session ID:</h2>
+			<h3>Enter Session ID:</h3>
 			<input type="text" name="session_key">
-			<input type="submit" value="Submit">
 		</form>
-		<h2>Question 1</h2>
-		<ul>
-			<li>A</li>
-			<li>B</li>
-			<li>C</li>
-			<li><input type="button" value="+ Add Choice"></li>
-		</ul>
-		<input type="button" value="+ Add Question">
-		<input type="button" value="Run">
-	</div>
+		<div id="questions">
+		</div>
+		<input type="button"  data-theme="b" data-icon="plus" value="Add Question" onclick="addQuestion(document.getElementById('questions').lastChild.id, 'questions')">
+		<input type="button" data-icon="check" value="Run">
+	</div><!-- /content -->
+	
 </div>
 
 <div data-role="page" data-add-back-btn="true" id="runPage">
-	<div data-role="header" data-position="inline" data-theme="a">
-		<h1>MRS - Run a Saved Session<h1>
-	</div>
+	<div data-role="header">
+		<h1>MobRS</h1>
+	</div><!-- /header -->
 	<div data-role="content">
 		<ul data-role="listview">
 			<li>
@@ -85,9 +98,9 @@
 </div>
 
 <div data-role="page" data-add-back-btn="true" id="reviewPage">
-	<div data-role="header" data-position="inline" data-theme="a">
-		<h1>MRS - Review a Finished Session<h1>
-	</div>
+	<div data-role="header">
+		<h1>MobRS</h1>
+	</div><!-- /header -->
 	<div data-role="content">
 		<ul data-role="listview">
 			<li>

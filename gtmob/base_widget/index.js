@@ -1,3 +1,46 @@
+/*
+Create Session Functions
+*/
+
+function addChoice(lastChild, divName){	
+	var text;
+	var lastChildText = "";
+	
+	if(lastChild == undefined || lastChild==null)
+		text = "A";
+	else
+	{
+		lastChildText = lastChild.id;
+		text = String.fromCharCode(lastChildText.charCodeAt(0)+1)
+	}
+	
+	$("#"+divName).append("<div id="+text+"><input type='radio' name='"+divName+"' value='"+text+"'>"+text+"</div>");
+	//$("#"+divName).append("<li>"+text+"</li>");
+} 
+
+function removeLastChoice(divName)
+{
+	$("#"+divName+" div:last-child").remove();
+}
+function removeQuestion(divName)
+{
+	$("#"+divName).remove();
+}
+function addQuestion(questionNumber, divName){
+	if(questionNumber == undefined)
+		questionNumber = 'question-0';
+	var questionInt = parseInt(questionNumber.split("-")[1])+1;
+	var questionID = "question-"+questionInt;
+	
+	$("#"+divName).append("<div id="+questionID+" data-role='content'><h2>Question "+questionInt+"</h2><ul id='q"+questionInt+"-choices'></ul><input type='button' data-inline='true' data-theme='b' data-icon='plus' value='Add Choice' onclick=\"addChoice(document.getElementById('q"+questionInt+"-choices').lastChild, 'q"+questionInt+"-choices')\"><input type='button' data-inline='true' data-theme='b' data-icon='plus' value='Remove Choice' onclick=\"removeLastChoice('q"+questionInt+"-choices')\"> <input type='button' data-inline='true' data-theme='b' data-icon='plus' value='Remove Question' onclick=\"removeQuestion('"+questionID+"')\"></div>");
+	
+	//$("#"+questionID).trigger("create");
+} 
+
+
+/*
+Functions
+*/
 function professors(){
 	$.ajax({
 		url: "api/pagetype/professors",

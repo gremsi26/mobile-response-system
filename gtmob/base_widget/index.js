@@ -2,45 +2,98 @@
 Create Session Functions
 */
 
-function addChoice(lastChild, divName){	
-	var text;
-	var lastChildText = "";
-	
-	if(lastChild == undefined || lastChild==null)
+function addChoice(lastChild, divName) {
+	var text,
+		lastChildText = "";
+
+	if (lastChild === undefined || lastChild === null) {
 		text = "A";
-	else
-	{
+	} else {
 		lastChildText = lastChild.id;
-		text = String.fromCharCode(lastChildText.charCodeAt(0)+1)
+		text = String.fromCharCode(lastChildText.charCodeAt(0) + 1);
 	}
-	
-	$("#"+divName).append("<div id="+text+"><input type='radio' name='"+divName+"' value='"+text+"'>"+text+"</div>");
-	//$("#"+divName).append("<li>"+text+"</li>");
-} 
 
-function removeLastChoice(divName)
-{
-	$("#"+divName+" div:last-child").remove();
+	var	newChoiceInput = $("<input>", {
+			type: "radio",
+			name: divName,
+			value: text
+		}).after(text),
+
+		newChoiceDiv = $("<div>", {
+			id: text
+		}).append(newChoiceInput);
+
+	$("#" + divName).append(newChoiceDiv);
 }
-function removeQuestion(divName)
-{
-	$("#"+divName).remove();
+
+function removeLastChoice(divName) {
+	$("#" + divName + " div:last-child").remove();
 }
-function addQuestion(questionNumber, divName){
-	if(questionNumber == undefined)
+
+function removeQuestion(divName) {
+	$("#" + divName).remove();
+}
+
+function addQuestion(questionNumber, divName) {
+	if (questionNumber === undefined) {
 		questionNumber = 'question-0';
-	var questionInt = parseInt(questionNumber.split("-")[1])+1;
-	var questionID = "question-"+questionInt;
-	
-	$("#"+divName).append("<div id="+questionID+" data-role='content'><h2>Question "+questionInt+"</h2><ul id='q"+questionInt+"-choices'></ul><input type='button' data-inline='true' data-theme='b' data-icon='plus' value='Add Choice' onclick=\"addChoice(document.getElementById('q"+questionInt+"-choices').lastChild, 'q"+questionInt+"-choices')\"><input type='button' data-inline='true' data-theme='b' data-icon='plus' value='Remove Choice' onclick=\"removeLastChoice('q"+questionInt+"-choices')\"> <input type='button' data-inline='true' data-theme='b' data-icon='plus' value='Remove Question' onclick=\"removeQuestion('"+questionID+"')\"></div>");
-	
-	//$("#"+questionID).trigger("create");
-} 
+	}
 
+	var questionInt = parseInt(questionNumber.split("-")[1], 10) + 1,
+		questionID = "question-" + questionInt,
 
-/*
-Functions
-*/
+		newQuestionHeader = $("<h2>", {
+			text: "Question " + questionInt
+		}),
+
+		choicesID = "q" + questionInt + "-choices",
+
+		newQuestionChoices = $("<ul>", {
+			id: choicesID
+		}),
+
+		addChoiceBtn = $("<input>", {
+			type: "button",
+			"data-inline": "true",
+			"data-theme": "b",
+			"data-icon" : "plus",
+			value: "Add Choice",
+			click: function() {
+				addChoice(document.getElementById(choicesID).lastChild, choicesID);
+			}
+		}),
+
+		removeChoiceBtn = $("<input>", {
+			type: "button",
+			"data-inline": "true",
+			"data-theme": "b",
+			"data-icon" : "plus",
+			value: "Remove Choice",
+			click: function() {
+				removeLastChoice(choicesID);
+			}
+		}),
+
+		removeQuestionBtn = $("<input>", {
+			type: "button",
+			"data-inline": "true",
+			"data-theme": "b",
+			"data-icon" : "plus",
+			value: "Remove Question",
+			click: function() {
+				removeQuestion(questionID);
+			}
+		}),
+
+		newQuestionDiv = $("<div>", {
+			id: questionID
+		}).append(newQuestionHeader, newQuestionChoices, addChoiceBtn, removeChoiceBtn, removeQuestionBtn);
+	
+	$("#" + divName).append(newQuestionDiv);
+	
+	newQuestionDiv.trigger("create");
+}
+
 function professors(){
 	$.ajax({
 		url: "api/pagetype/professors",

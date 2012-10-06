@@ -2,7 +2,11 @@
 <widget title="MRS - Mobile Response System"> <!-- security="protected" //this has been disabled for now for easy debugging. include this in the widget tag to require user to be logged in -->
 	<library name="jquery"/>
     <library name="gtmob"/>
-	<javascript file="index.js"/>
+	<javascript file="js/index.js"/>
+	<javascript file="js/createSession.js"/>
+	<javascript file="js/runSession.js"/>
+	<javascript file="js/reviewSession.js"/>
+	<javascript file="js/studentPage.js"/>
 	<css file="main.css"/>    
     <html file="index.html"/>
     

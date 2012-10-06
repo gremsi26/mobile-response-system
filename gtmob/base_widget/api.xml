@@ -9,7 +9,7 @@
 		<index>
 			<description><![CDATA[This action gets all the sessions and their URIs.]]></description>
 			<action file="action.php"><![CDATA[
-				echo getAllSessions();
+				echo getSessions($_GET['creatorname']);
 			]]></action>
 		</index>	
 
@@ -21,7 +21,7 @@
 		</put>
 
 		<get>
-			<description><![CDATA[Get all session metadata and questions currently contained for the session.]]></description>
+			<description><![CDATA[Get all session metadata and questions currently contained for the session, or all the session IDs owned by the user.]]></description>
 			<action file="action.php"><![CDATA[
 				if(isset($_REST['sessions']))
 					echo getSession($_REST['sessions']);
@@ -54,12 +54,6 @@
 			]]></action>
 		</get>
 
-		<delete>
-			<description><![CDATA[Deletes a question given the question id]]></description>
-			<action file="action.php"><![CDATA[
-				echo deleteQuestion($_REST['questions']);
-			]]></action>
-		</delete>
 
 
 
@@ -69,9 +63,18 @@
 		<put>
 			<description><![CDATA[Adds a response from a user for a particular question]]></description>
 			<action file="action.php"><![CDATA[
-				echo addQuestion($_POST('userid'),$_POST('questionid'),$_POST('answer'));
+				echo putResponse($_POST('userid'),$_POST('questionid'),$_POST('answer'));
 			]]></action>
 		</put>
+	</command>
+
+	<command id='results' security='protected'>
+		<get>
+			<description><![CDATA[Returns the results for the provided question id.]]></description>
+			<action file="action.php"><![CDATA[
+				echo getResults($_REST['results']);
+			]]></action>
+		</get>
 	</command>
 
 </api>

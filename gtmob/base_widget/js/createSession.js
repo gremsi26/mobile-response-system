@@ -7,10 +7,10 @@ function addChoice(lastChild, fieldSetID) {
 		lastChildText = "";
 
 	if (lastChild.className == "ui-controlgroup-controls" || lastChild === undefined || lastChild === null) {
-		text = "A";
+		text = "1";
 	} else {
 		lastChildText = lastChild.id;
-		text = String.fromCharCode(lastChildText.charCodeAt(0) + 1);
+		text = parseInt(lastChildText) + 1;
 	}
 
 	var	newChoiceInput = $("<input>", {
@@ -137,6 +137,7 @@ function saveSession(){
 		var correctChoice = $("input[name*="+radiobuttons_id+"]:checked").attr("value");;
 		questions_json_object.questions[i].correctChoice = correctChoice;
 		questions_json_object.questions[i].choices = choices;
+		console.log(questions_json_object.questions);
 	}
 
 	console.log(questions_json_object);
@@ -147,108 +148,6 @@ function saveSession(){
 		type: 'POST',
 		success: function(data){
 			$('#studentPageContent').html(data);
-		}
-	});
-}
-
-function refreshSession(){
-	$.ajax({
-		url: "api/sessions/"+document.getElementById("studentPageForm").elements["sessionID"].value,
-		context: document.body,
-		type: 'GET',
-		success: function(data){
-			var d = new Date();
-			if(data == null || data.success == "false")
-				$('#studentPageContent').append("No Question Active. "+d.getTime());
-			if(data.success == "true")
-				$('#studentPageContent').html(data);
-		}
-	});
-}
-
-
-function joinSession(){
-	$.ajax({
-		url: "api/sessions/"+document.getElementById("studentPageForm").elements["sessionID"].value,
-		context: document.body,
-		type: 'GET',
-		success: function(data){
-			var d = new Date();
-			if(data == null || data.success == "false")
-				$('#studentPageContent').append("Session not found. Please try again. "+d.getTime());
-			if(data.success == "true")
-				$('#studentPageContent').html(data);
-		}
-	});
-}
-
-
-function professors(){
-	$.ajax({
-		url: "api/pagetype/professors",
-		context: document.body,
-		success: function(data){
-			$('#formcontent').html(data);
-		}
-	});
-}
-function students(){
-	$.ajax({
-		url: "api/pagetype/students",
-		context: document.body,
-		success: function(data){
-			$('#formcontent').html(data);
-		}
-	});
-}
-function simpleIndex(){
-	$.ajax({
-		url: "api/simple",
-		context: document.body,
-		success: function(data){
-			$('#IndexResult').html(data);
-		}
-	});
-}
-function simpleGet(){
-	$.ajax({
-		url: "api/simple/testItemValue",
-		context: document.body,
-		success: function(data){
-			$('#GetResult').html(data);
-		}
-	});
-}
-function simplePost(){
-	$.ajax({
-		url: "api/simple",
-		data: {'itemValue': 'testItemValue'},
-		context: document.body,
-		type: 'POST',
-		success: function(data){
-			$('#PostResult').html(data);
-		}
-	});
-}
-function simplePut(){
-	$.ajax({
-		url: "api/simple/testItemValue",
-		context: document.body,
-		data: {'itemValue': 'testItemNewValue'},
-		headers: {'X-HTTP-Method-Override': 'PUT'},
-		type: 'POST',
-		success: function(data){
-			$('#PutResult').html(data);
-		}
-	});
-}
-function simpleDelete(){
-	$.ajax({
-		url: "api/simple/testItem",
-		context: document.body,
-		type: 'DELETE',
-		success: function(data){
-			$('#DeleteResult').html(data);
 		}
 	});
 }

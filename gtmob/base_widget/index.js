@@ -2,7 +2,7 @@
 Create Session Functions
 */
 
-function addChoice(lastChild, divName) {
+function addChoice(lastChild, ul_ID) {
 	var text,
 		lastChildText = "";
 
@@ -15,20 +15,29 @@ function addChoice(lastChild, divName) {
 
 	var	newChoiceInput = $("<input>", {
 			type: "radio",
-			name: divName,
-			value: text
-		}).after(text),
+			name: ul_ID,
+			value: text,
+			id: text+"-input"
+		}),
+
+		newChoiceLabel = $("<label>",{
+			"for": text+"-input"
+		}).append(text),
 
 		newChoiceDiv = $("<div>", {
 			id: text
-		}).append(newChoiceInput);
+		}).append(newChoiceInput,newChoiceLabel);
 
-	$("#" + divName).append(newChoiceDiv);
+	choicesFieldSet = $("#" + ul_ID);
+	choicesFieldSet.append(newChoiceDiv);
+	choicesFieldSet.trigger("create");
 }
 
-function removeLastChoice(divName) {
-	if(document.getElementById(divName).lastChild.className!="ui-controlgroup-controls")
-		$("#" + divName + " div:last-child").remove();
+function removeLastChoice(ul_ID) {
+	if(document.getElementById(ul_ID).lastChild.className!="ui-controlgroup-controls"){
+		$("#" + ul_ID + " div").last().remove();
+		$("#" + ul_ID + " div").last().remove();
+	}
 }
 
 function removeQuestion(divName) {
@@ -49,7 +58,7 @@ function addQuestion(questionNumber, divName) {
 
 		choicesID = "q" + questionInt + "-choices",
 
-		newQuestionChoices = $("<fieldset>", {
+		newQuestionChoices = $("<ul>", {
 			id: choicesID,
 			"data-role": "controlgroup"
 		}),
@@ -85,13 +94,13 @@ function addQuestion(questionNumber, divName) {
 			value: "Remove Question",
 			click: function() {
 				removeQuestion(questionID);
-			}3
+			}
 		}),
 		*/
 
 		newQuestionDiv = $("<div>", {
 			id: questionID,
-			class: "ui-body ui-body-c"
+			"class": "ui-body ui-body-c"
 		}).append(newQuestionHeader, newQuestionChoices, addChoiceBtn, removeChoiceBtn);
 	
 	$("#" + divName).append(newQuestionDiv);
@@ -124,10 +133,11 @@ function saveSession(){
 			choices += radio_buttons_array[j].value + " ";
 		
 		
-		questions_json_object.questions[i-1]['correctChoice'] = 'A';
-		questions_json_object.questions[i-1]['choices'] = choices;
+		questions_json_object.questions[i-1].correctChoice = 'A';
+		questions_json_object.questions[i-1].choices = choices;
 		position++;
 		//pos
+		}
 	}
 	
 	$.ajax({

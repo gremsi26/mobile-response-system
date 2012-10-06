@@ -46,13 +46,16 @@
 <div data-role="page" data-add-back-btn="true" id="studentPage">
 	<div data-role="header">
 		<h1>MobRS</h1>
+		<a data-icon="refresh" onclick="refreshSession()" data-theme="b" class="ui-btn-right">Refresh</a>
 	</div><!-- /header -->
 	<div data-role="content">
-		<form>
-			<h3>Session ID:</h3>
-			<input type="text" name="sessionID">
-			<input type="submit" value="Join">
-		</form>
+		<div id="studentPageContent">
+			<form action="joinSession()" id="studentPageForm">
+				<h3>Session ID:</h3>
+				<input type="text" name="sessionID">
+				<input type="submit" value="Join">
+			</form>
+		</div>
 	</div>
 </div>
 
@@ -63,13 +66,20 @@
 	</div><!-- /header -->
 
 	<div data-role="content">
-		<form>
+		<form id="createSessionForm">
 			<h3>Enter Session ID:</h3>
 			<input type="text" name="session_key">
 		</form>
 		<div id="questions">
 		</div>
-		<input type="button"  data-theme="b" data-icon="plus" value="Add Question" onclick="addQuestion(document.getElementById('questions').lastChild.id, 'questions')">
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<input type="button"  data-theme="b" data-icon="plus" value="Question" onclick="addQuestion(document.getElementById('questions').lastChild.id, 'questions')">
+			</div>
+			<div class="ui-block-b">
+				<input type="button" data-theme="a" data-icon="minus" value="Question" onclick="removeQuestion(document.getElementById('questions').lastChild.id)">
+			</div>
+		</div>
 		<input type="button" data-icon="check" value="Run">
 	</div><!-- /content -->
 	

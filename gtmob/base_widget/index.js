@@ -6,7 +6,7 @@ function addChoice(lastChild, divName) {
 	var text,
 		lastChildText = "";
 
-	if (lastChild === undefined || lastChild === null) {
+	if (lastChild.className == "ui-controlgroup-controls" || lastChild === undefined || lastChild === null) {
 		text = "A";
 	} else {
 		lastChildText = lastChild.id;
@@ -27,7 +27,8 @@ function addChoice(lastChild, divName) {
 }
 
 function removeLastChoice(divName) {
-	$("#" + divName + " div:last-child").remove();
+	if(document.getElementById(divName).lastChild.className!="ui-controlgroup-controls")
+		$("#" + divName + " div:last-child").remove();
 }
 
 function removeQuestion(divName) {
@@ -48,8 +49,9 @@ function addQuestion(questionNumber, divName) {
 
 		choicesID = "q" + questionInt + "-choices",
 
-		newQuestionChoices = $("<ul>", {
-			id: choicesID
+		newQuestionChoices = $("<fieldset>", {
+			id: choicesID,
+			"data-role": "controlgroup"
 		}),
 
 		addChoiceBtn = $("<input>", {
@@ -57,7 +59,7 @@ function addQuestion(questionNumber, divName) {
 			"data-inline": "true",
 			"data-theme": "b",
 			"data-icon" : "plus",
-			value: "Add Choice",
+			value: "Choice",
 			click: function() {
 				addChoice(document.getElementById(choicesID).lastChild, choicesID);
 			}
@@ -66,14 +68,15 @@ function addQuestion(questionNumber, divName) {
 		removeChoiceBtn = $("<input>", {
 			type: "button",
 			"data-inline": "true",
-			"data-theme": "b",
-			"data-icon" : "plus",
-			value: "Remove Choice",
+			"data-theme": "a",
+			"data-icon" : "minus",
+			value: "Choice",
 			click: function() {
 				removeLastChoice(choicesID);
 			}
 		}),
 
+		/*
 		removeQuestionBtn = $("<input>", {
 			type: "button",
 			"data-inline": "true",
@@ -82,17 +85,92 @@ function addQuestion(questionNumber, divName) {
 			value: "Remove Question",
 			click: function() {
 				removeQuestion(questionID);
-			}
+			}3
 		}),
+		*/
 
 		newQuestionDiv = $("<div>", {
-			id: questionID
-		}).append(newQuestionHeader, newQuestionChoices, addChoiceBtn, removeChoiceBtn, removeQuestionBtn);
+			id: questionID,
+			class: "ui-body ui-body-c"
+		}).append(newQuestionHeader, newQuestionChoices, addChoiceBtn, removeChoiceBtn);
 	
 	$("#" + divName).append(newQuestionDiv);
 	
 	newQuestionDiv.trigger("create");
 }
+
+function saveSession(){
+	/* */
+	var questions_div = document.getElementById("questions");
+	var questions_nodes = questions_div.childNodes;
+	var num_of_questions = questions_div.childNodes.length;
+	var questions_json_object = {};
+	questions_json_object.questions_size = num_of_questions;
+	questions_json_object.questions = [];
+	questions_json_object.questions.push({});
+	
+	//start at 1 because some random obj is in position 0
+	var position = 0;
+	for(i=1; i<num_of_questions; i++)
+	{
+		//0 has the question heading. 1 gets the field set.
+		//questions_nodes[i].childNodes[1].childNodes.length; 
+		var radiobuttons_id = questions_nodes[i].childNodes[1].id; 
+		var radio_buttons_array = document.getElementsByName(radiobuttons_id); 
+		
+		var choices = "";
+		for(j = 0; j<radio_buttons_array.length; j++)
+		{
+			choices += radio_buttons_array[j].value + " ";
+		
+		
+		questions_json_object.questions[i-1]['correctChoice'] = 'A';
+		questions_json_object.questions[i-1]['choices'] = choices;
+		position++;
+		//pos
+	}
+	
+	$.ajax({
+		url: "api/sessions/"+document.getElementById("createSessionForm").elements["session_key"].value,
+		context: document.body,
+		type: 'POST',
+		success: function(data){
+			$('#studentPageContent').html(data);
+		}
+	});
+}
+
+function refreshSession(){
+	$.ajax({
+		url: "api/sessions/"+document.getElementById("studentPageForm").elements["sessionID"].value,
+		context: document.body,
+		type: 'GET',
+		success: function(data){
+			var d = new Date();
+			if(data == null || data.success == "false")
+				$('#studentPageContent').append("No Question Active. "+d.getTime());
+			if(data.success == "true")
+				$('#studentPageContent').html(data);
+		}
+	});
+}
+
+
+function joinSession(){
+	$.ajax({
+		url: "api/sessions/"+document.getElementById("studentPageForm").elements["sessionID"].value,
+		context: document.body,
+		type: 'GET',
+		success: function(data){
+			var d = new Date();
+			if(data == null || data.success == "false")
+				$('#studentPageContent').append("Session not found. Please try again. "+d.getTime());
+			if(data.success == "true")
+				$('#studentPageContent').html(data);
+		}
+	});
+}
+
 
 function professors(){
 	$.ajax({

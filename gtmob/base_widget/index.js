@@ -36,7 +36,6 @@ function addChoice(lastChild, fieldSetID) {
 
 function removeLastChoice(fieldSetID) {
 	if(document.getElementById(fieldSetID).lastChild.className!="ui-controlgroup-controls"){
-		console.log($(".choice-div", "#" + fieldSetID).last())
 		$(".choice-div", "#" + fieldSetID).last().remove();
 	}
 }
@@ -110,39 +109,37 @@ function addQuestion(questionNumber, divName) {
 }
 
 function saveSession(){
-	console.log("HEY");
 	/* */
 	var questions_div = document.getElementById("questions");
 	var questions_nodes = questions_div.childNodes;
-	var num_of_questions = questions_div.childNodes.length;
+	//cast NodeList into Array
+	questions_nodes = jQuery.makeArray(questions_nodes);
+	//Remove first "Text" object of questions_nodes, leaving only the questions
+	questions_nodes.shift();
+	//The number of questions in the session
+	var num_of_questions = questions_nodes.length;
 	var questions_json_object = {};
 	questions_json_object.questions_size = num_of_questions;
 	questions_json_object.questions = [];
-	questions_json_object.questions.push({});
 	
-	//start at 1 because some random obj is in position 0
-	var position = 0;
-	for(i=1; i<num_of_questions; i++)
+	for(i=0; i<num_of_questions; i++)
 	{
+		questions_json_object.questions.push({});
 		//0 has the question heading. 1 gets the field set.
 		//questions_nodes[i].childNodes[1].childNodes.length; 
 		var radiobuttons_id = questions_nodes[i].childNodes[1].id; 
 		var radio_buttons_array = document.getElementsByName(radiobuttons_id); 
-		
 		var choices = "";
 		for(j = 0; j<radio_buttons_array.length; j++)
 		{
-			choices += radio_buttons_array[j].value + " ";
-		
-		console.log("I EQUALS: "+i);
-		console.log(questions_json_object.questions[i-1]);
-		
-		questions_json_object.questions[i-1].correctChoice = 'A';
-		questions_json_object.questions[i-1].choices = choices;
-		position++;
-		//pos
+			choices += radio_buttons_array[j].value + " ";	
 		}
+		var correctChoice = $("input[name*="+radiobuttons_id+"]:checked").attr("value");;
+		questions_json_object.questions[i].correctChoice = correctChoice;
+		questions_json_object.questions[i].choices = choices;
 	}
+
+	console.log(questions_json_object);
 	
 	$.ajax({
 		url: "api/sessions/"+document.getElementById("createSessionForm").elements["session_key"].value,

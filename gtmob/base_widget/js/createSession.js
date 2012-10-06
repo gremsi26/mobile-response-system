@@ -119,7 +119,9 @@ function saveSession(){
 	//The number of questions in the session
 	var num_of_questions = questions_nodes.length;
 	var questions_json_object = {};
-	questions_json_object.questions_size = num_of_questions;
+	//questions_json_object.session = num_of_questions;
+	questions_json_object.session = {};
+	questions_json_object.session.name = document.getElementById("createSessionForm").elements["session_key"].value;
 	questions_json_object.questions = [];
 	
 	for(i=0; i<num_of_questions; i++)
@@ -129,25 +131,40 @@ function saveSession(){
 		//questions_nodes[i].childNodes[1].childNodes.length; 
 		var radiobuttons_id = questions_nodes[i].childNodes[1].id; 
 		var radio_buttons_array = document.getElementsByName(radiobuttons_id); 
+		var correctChoice = $("input[name*="+radiobuttons_id+"]:checked").attr("value");
+		
+		
+		questions_json_object.questions[i].id = questions_nodes[i].id.split("-")[1];
+		questions_json_object.questions[i].numanswerchoices = radio_buttons_array[radio_buttons_array.length-1].value;
+		questions_json_object.questions[i].correctanswerchoice = correctChoice;	
+		questions_json_object.questions[i].incorrectpoints = '1';			
+		questions_json_object.questions[i].correctpoints = '1';				
+		questions_json_object.questions[i].ispolling = '0';		
+		questions_json_object.questions[i].questionType = '0';
+		/*
 		var choices = "";
 		for(j = 0; j<radio_buttons_array.length; j++)
 		{
 			choices += radio_buttons_array[j].value + " ";	
 		}
-		var correctChoice = $("input[name*="+radiobuttons_id+"]:checked").attr("value");;
-		questions_json_object.questions[i].correctChoice = correctChoice;
-		questions_json_object.questions[i].choices = choices;
-		console.log(questions_json_object.questions);
-	}
+		*/
+		
+		
+		
+
+		//console.log(questions_json_object.questions);
+	} 
 
 	console.log(questions_json_object);
 	
 	$.ajax({
 		url: "api/sessions/"+document.getElementById("createSessionForm").elements["session_key"].value,
 		context: document.body,
-		type: 'POST',
+		type: 'PUT',
+		data: questions_json_object,
 		success: function(data){
-			$('#studentPageContent').html(data);
+			//$('#studentPageContent').html(data);
+			alert('Session successfully saved');
 		}
 	});
 }

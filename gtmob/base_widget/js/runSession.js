@@ -1,4 +1,7 @@
 $("#runPage").live("pageinit",function(event){
+	$.ajax({
+		//url: sessions?creatorname=
+	})
 	var runList = $("#runList","#runPage");
 	var testLI = $("<li>").append("A session");
 	var testLI2 = $("<li>").append("Another Session");

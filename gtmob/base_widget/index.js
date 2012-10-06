@@ -2,7 +2,7 @@
 Create Session Functions
 */
 
-function addChoice(lastChild, ul_ID) {
+function addChoice(lastChild, fieldSetID) {
 	var text,
 		lastChildText = "";
 
@@ -15,7 +15,7 @@ function addChoice(lastChild, ul_ID) {
 
 	var	newChoiceInput = $("<input>", {
 			type: "radio",
-			name: ul_ID,
+			name: fieldSetID,
 			value: text,
 			id: text+"-input"
 		}),
@@ -25,18 +25,19 @@ function addChoice(lastChild, ul_ID) {
 		}).append(text),
 
 		newChoiceDiv = $("<div>", {
-			id: text
+			id: text,
+			"class": "choice-div"
 		}).append(newChoiceInput,newChoiceLabel);
 
-	choicesFieldSet = $("#" + ul_ID);
+	choicesFieldSet = $("#" + fieldSetID);
 	choicesFieldSet.append(newChoiceDiv);
 	choicesFieldSet.trigger("create");
 }
 
-function removeLastChoice(ul_ID) {
-	if(document.getElementById(ul_ID).lastChild.className!="ui-controlgroup-controls"){
-		$("#" + ul_ID + " div").last().remove();
-		$("#" + ul_ID + " div").last().remove();
+function removeLastChoice(fieldSetID) {
+	if(document.getElementById(fieldSetID).lastChild.className!="ui-controlgroup-controls"){
+		console.log($(".choice-div", "#" + fieldSetID).last())
+		$(".choice-div", "#" + fieldSetID).last().remove();
 	}
 }
 
@@ -58,7 +59,7 @@ function addQuestion(questionNumber, divName) {
 
 		choicesID = "q" + questionInt + "-choices",
 
-		newQuestionChoices = $("<ul>", {
+		newQuestionChoices = $("<fieldSet>", {
 			id: choicesID,
 			"data-role": "controlgroup"
 		}),
@@ -109,6 +110,7 @@ function addQuestion(questionNumber, divName) {
 }
 
 function saveSession(){
+	console.log("HEY");
 	/* */
 	var questions_div = document.getElementById("questions");
 	var questions_nodes = questions_div.childNodes;
@@ -132,6 +134,8 @@ function saveSession(){
 		{
 			choices += radio_buttons_array[j].value + " ";
 		
+		console.log("I EQUALS: "+i);
+		console.log(questions_json_object.questions[i-1]);
 		
 		questions_json_object.questions[i-1].correctChoice = 'A';
 		questions_json_object.questions[i-1].choices = choices;

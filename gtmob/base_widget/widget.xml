@@ -12,7 +12,7 @@
     
     <!-- jquery mobile has to be after the html file -->
     <library name="jquery.mobile"/>
-	<javascript file="purl.js"/>
+	<javascript file="lib/jquery.flot.js"/>
     
     <manifest>
     

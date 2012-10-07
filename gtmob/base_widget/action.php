@@ -98,13 +98,23 @@ function putResponse($questionID, $answer)
 	global $_USER;
 	$username = $_USER['uid'];
 
+	$isPollingSQL = sprintf("SELECT * FROM Questions WHERE id=%s AND ispolling=1",
+				mysql_real_escape_string($questionID));
+		
+	$pollingArray = getDBResultsArray($isPollingSQL);
 
+	if(count($pollingArray) == 0)
+	{
+		header("Content-type: application/json");
+		echo json_encode(array("success" => 0));
+		return;
+	}
 
-	$sql = sprintf("DELETE FROM Responses WHERE questionid=%s AND responder=%s",
+	$sql = sprintf("DELETE FROM Responses WHERE questionid=%s AND responder=\"%s\"",
 				mysql_real_escape_string($questionID),
 				mysql_real_escape_string($username));
 
-	getDBResultAffected($sql);
+	$newResults = getDBResultAffected($sql);
 
 	$sqlAdd = sprintf("INSERT INTO Responses
 				(questionid,
@@ -132,6 +142,15 @@ function getResults($questionID)
 
 	$results = getDbResultsArray($sql);
 	
+	header("Content-type: application/json");
+	echo json_encode($results);
+}
+
+function getAggregateResults($questionID)
+{
+	$sql = sprintf("SELECT choice, COUNT(choice) FROM Responses WHERE questionid = %s GROUP BY choice", $questionID);
+	$results = getDbResultsArray($sql);
+
 	header("Content-type: application/json");
 	echo json_encode($results);
 }

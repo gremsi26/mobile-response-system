@@ -67,27 +67,30 @@
 		</post>
 
 
-
-
-
-
 	</command>
 
-	<command id='responses' security='public'>
+	<command id='responses' security='protected'>
 		<put>
 			<description><![CDATA[Adds a response from a user for a particular question]]></description>
 			<action file="action.php"><![CDATA[
-				echo putResponse($_POST('questionid'),$_POST('answer'));
+				echo putResponse($_POST['questionid'],$_POST['answer']);
 			]]>
 			</action>
 		</put>
 	</command>
 
-	<command id='results' security='public'>
+	<command id='results' security='protected'>
 		<get>
 			<description><![CDATA[Returns the results for the provided question id.]]></description>
 			<action file="action.php"><![CDATA[
-				echo getResults($_REST['results']);
+				if(!isset($_GET['aggregate']) || $_GET['aggregate'] == 0)
+				{
+					echo getResults($_REST['results']);
+				}
+				else if(isset($_GET['aggregate']) && $_GET['aggregate'] == 1)
+				{
+					echo getAggregateResults($_REST['results']);
+				}
 			]]></action>
 		</get>
 	</command>

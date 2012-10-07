@@ -50,12 +50,7 @@ function getDBResultRecord($dbQuery){
 
 function getDBResultAffected($dbQuery){
 	$dbResults=mysql_query($dbQuery);
-	if($dbResults){
-		return array('rowsAffected'=>mysql_affected_rows());
-	}else{
-		$GLOBALS["_PLATFORM"]->sandboxHeader('HTTP/1.1 500 Internal Server Error');
-		die(mysql_error());
-	}
+	return array('rowsAffected'=>mysql_affected_rows());
 }
 
 function getDBResultInserted($dbQuery,$id){

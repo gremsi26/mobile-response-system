@@ -82,7 +82,7 @@ function addQuestion(questionNumber, divName) {
 		removeChoiceBtn = $("<input>", {
 			type: "button",
 			"data-inline": "true",
-			"data-theme": "a",
+			"data-theme": "r",
 			"data-icon" : "minus",
 			value: "Choice",
 			click: function() {

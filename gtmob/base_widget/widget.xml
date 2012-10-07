@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding = "utf-8" ?>
-<widget title="MRS - Mobile Response System"> <!-- security="protected" //this has been disabled for now for easy debugging. include this in the widget tag to require user to be logged in -->
+<widget title="MRS - Mobile Response System" security="private"> <!-- security="protected" //this has been disabled for now for easy debugging. include this in the widget tag to require user to be logged in -->
 	<library name="jquery"/>
     <library name="gtmob"/>
 	<javascript file="js/index.js"/>
 	<javascript file="js/createSession.js"/>
 	<javascript file="js/runSession.js"/>
 	<javascript file="js/reviewSession.js"/>
-	<javascript file="js/studentPage.js"/>
+	<javascript file="js/studentSession.js"/>
 	<css file="main.css"/>    
     <html file="index.html"/>
     
     <!-- jquery mobile has to be after the html file -->
     <library name="jquery.mobile"/>
+	<javascript file="purl.js"/>
     
     <manifest>
     

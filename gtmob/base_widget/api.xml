@@ -5,18 +5,18 @@
         </description>
 
 
-	<command id='sessions' security='public'>
+	<command id='sessions' security='protected'>
 		<index>
 			<description><![CDATA[This action gets all the sessions and their URIs.]]></description>
 			<action file="action.php"><![CDATA[
-				echo getSessions($_GET['creatorname']);
+				echo getSessions();
 			]]></action>
 		</index>	
 
 		<put>
 			<description><![CDATA[Adds a new session.]]></description>
 			<action file="action.php"><![CDATA[
-				echo putSession($_POST['name']);
+				echo putSession($_POST['name'], $_POST);
 			]]></action>
 		</put>
 
@@ -25,16 +25,15 @@
 			<action file="action.php"><![CDATA[
 				if(isset($_REST['sessions']))
 					echo getSession($_REST['sessions']);
-				else if(isset($_GET['creatorname']))
-					echo getSessions($_GET['creatorname']);
 			]]></action>
 		</get>
 
 		<post>
 			<description><![CDATA[Updates a session with new information.]]></description>
 			<action file="action.php"><![CDATA[
-				echo postSession($_POST['name'],$_POST['isOpen'],$_POST['questions']);
-			]]></action>
+					echo postSession($_REST['sessions'], $_POST['name'],$_POST['isOpen']);
+			]]>
+			</action>
 		</post>
 
 		<delete>
@@ -46,7 +45,7 @@
 	</command>
 
 
-	<command id='questions' security='public'>	
+	<command id='questions' security='protected'>	
 	        <get>
 			<description><![CDATA[Get the data for a question as well as all the reponses for that question]]></description>
 			<action file="action.php"><![CDATA[
@@ -54,21 +53,37 @@
 			]]></action>
 		</get>
 
+		<put>
+			<description><![CDATA[Adds a new question to a session.]]></description>
+			<action file="action.php"><![CDATA[
+				echo putQuestion($_POST['numanswerchoices'], $_POST['correctanswerchoice'], $_POST['incorrectpoints'], $_POST['correctpoints'], $_POST['ispolling'], $_POST['questiontype'], $_POST['sessionid']);
+			]]></action>
+		</put>
+		<post>
+			<description><![CDATA[Adds a new question to a session.]]></description>
+			<action file="action.php"><![CDATA[
+				echo postQuestion($_REST["questions"], $_POST['numanswerchoices'], $_POST['correctanswerchoice'], $_POST['incorrectpoints'], $_POST['correctpoints'], $_POST['ispolling'], $_POST['questiontype'], $_POST['sessionid']);
+			]]></action>
+		</post>
+
+
+
 
 
 
 	</command>
 
-	<command id='reponses' security='public'>
+	<command id='responses' security='public'>
 		<put>
 			<description><![CDATA[Adds a response from a user for a particular question]]></description>
 			<action file="action.php"><![CDATA[
-				echo putResponse($_POST('userid'),$_POST('questionid'),$_POST('answer'));
-			]]></action>
+				echo putResponse($_POST('questionid'),$_POST('answer'));
+			]]>
+			</action>
 		</put>
 	</command>
 
-	<command id='results' security='protected'>
+	<command id='results' security='public'>
 		<get>
 			<description><![CDATA[Returns the results for the provided question id.]]></description>
 			<action file="action.php"><![CDATA[
@@ -76,5 +91,25 @@
 			]]></action>
 		</get>
 	</command>
+
+	<command id='user' security='private'>
+		<index>
+			<description><![CDATA[A simple API to get the current user.]]></description>
+			<action file="action.php"><![CDATA[
+				global $_USER;
+				var_dump($_USER);
+				echo "Done!";
+			]]></action>
+		</index>
+		<get>
+			<description><![CDATA[Returns the results for the provided question id.]]></description>
+			<action file="action.php"><![CDATA[
+				global $_USER;
+				var_dump($_USER);
+				echo "Done!";
+			]]></action>
+		</get>
+	</command>
+
 
 </api>

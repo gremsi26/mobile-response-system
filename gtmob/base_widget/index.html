@@ -46,23 +46,25 @@
 <div data-role="page" data-add-back-btn="true" id="studentPage">
 	<div data-role="header">
 		<h1>MobRS</h1>
-		<a data-icon="refresh" onclick="refreshSession()" data-theme="b" class="ui-btn-right">Refresh</a>
+		<a data-icon="refresh" onclick="refresh()" data-theme="b" class="ui-btn-right">Refresh</a>
 	</div><!-- /header -->
 	<div data-role="content">
 		<div id="studentPageContent">
-			<form action="joinSession()" id="studentPageForm">
-				<h3>Session Name:</h3>
+			<form id="studentPageForm">
+				<h3>Session ID:</h3>
 				<input type="text" name="sessionID">
-				<input type="submit" value="Join">
+				<input type="button" onclick="joinSession()" value="Join">
 			</form>
 		</div>
-	</div>
+		<div id="studentPageMessages">
+		</div>
+	</div> 
 </div>
 
 <div data-role="page" data-add-back-btn="true" id="createPage">
 	<div data-role="header">
 		<h1>MobRS</h1>
-	<a href="#professorPage" data-icon="check" data-theme="b" class="ui-btn-right" onclick="saveSession()">Save</a>
+	<a href="" data-icon="check" data-theme="b" class="ui-btn-right" onclick="saveSession()">Save</a>
 	</div><!-- /header -->
 
 	<div data-role="content">
@@ -80,7 +82,7 @@
 				<input type="button" data-theme="a" data-icon="minus" value="Question" onclick="removeQuestion(document.getElementById('questions').lastChild.id)">
 			</div>
 		</div>
-		<input type="button" data-icon="check" value="Run">
+		<!--<input type="button" data-icon="check" value="Run">-->
 	</div><!-- /content -->
 	
 </div>
@@ -92,6 +94,16 @@
 	<div data-role="content">
 		<ul data-role="listview" data-inset="true" id="runList">
 		</ul>
+	</div>
+</div>
+
+<div data-role="page" data-add-back-btn="true" id="sessionPage">
+	<div data-role="header">
+		<h1>MobRS</h1>
+	</div><!-- /header -->
+	<div data-role="content">
+		<fieldset data-role="controlgroup" data-inset="true" id="sessionQuestionsList">
+		</fieldset>
 	</div>
 </div>
 

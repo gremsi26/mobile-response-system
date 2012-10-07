@@ -39,9 +39,9 @@ function refresh() {
                     $('#responsesDiv').empty();
                     console.log('Question Active');
                     var pollingQuestion = data.pollingquestion;
-                    console.log('data ' + (data.questions[data.questions.length - 1]));
-                    var lastQuestion = data.questions[data.questions.length - 1];
-                    var questionNumber = data.questions.length - (lastQuestion.id - pollingQuestion.id);
+                    //console.log('data ' + (data.questions[data.questions.length - 1]));
+                    //var lastQuestion = data.questions[data.questions.length - 1];
+                    var questionNumber = "";// data.questions.length - (lastQuestion.id - pollingQuestion.id);
                     var questionID = pollingQuestion.id;
                     var questionType = pollingQuestion.questiontype;
                     var numanswerchoices = pollingQuestion.numanswerchoices;
@@ -49,7 +49,7 @@ function refresh() {
                     var pollingQuestionHeader = $("<h2>", {
                         id: pollingQuestionHeader,
                         "name": questionID,
-                        text: "Question #" + questionNumber
+                        text: "Question" + questionNumber
                     });
 
 
@@ -120,11 +120,13 @@ function refresh() {
                                         
                                         if(data.success!=null)
                                         {
-                                        	if(data.success == false){
-	                                      $('#studentSessionMessageDiv').text("Question has been closed. " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());  
-	                                      $('#studentSessionDiv').empty();
+                                        	if(data.success == "0"){
+	                                        	$('#studentSessionMessageDiv').text("Question has been closed. " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());  
+	                                        	$('#studentSessionDiv').empty();
 	                                      }
                                         }
+                                        else
+                                        {
                                         $('#studentSessionMessageDiv').text("Response Submitted (" + choiceSelected + ") " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
                                         var responsesButton = $("<input>", {
                                             type: "button",
@@ -164,17 +166,39 @@ function refresh() {
 																console.log("Responses Results: "+JSON.stringify(data));
 																
 																var options = {
-																	bars: { show: true }
+																	bars: { show: true, barWidth: 0.5, }
 																	//xaxis: { tickDecimals: 0, tickSize: 1 }
 																};
 																
+																var dataArray = [];
 																var i;
-																//for(i=0; i<data
+																for(i=0; i<dataArray.length; i++)
+																{
+																		var choiceArray = [data[i].choice, data[i]["COUNT(choice)"]];
+																		dataArray[data[i].choice-1] = choiceArray;
+																	
+																} 
+																console.log("Data Array Before: "+dataArray+" : "+numanswerchoices);
+																for(i = 0; i<numanswerchoices; i++)
+																{
+																	if(dataArray[i] == undefined || dataArray[i] == null)
+																	{
+																		dataArray[i] = [i+1, 0];
+																	}
+																}
 																
-																var data = [[0, 3], [4, 8], [8, 5], [9, 13]];
+																console.log("Data Array: "+dataArray+" : "+numanswerchoices);
+																
+																var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
 																var placeholder = $("#responsesDiv");
 																//placeholder.height 
-																$.plot(placeholder, data, options);
+																$.plot(placeholder, [{
+																	label: "Question Responses 1",
+																	yaxis: {min: 0, max:24, tickSize: 1},
+																	xaxis: {min: 0, max:24, tickSize: 1},
+														            bars: { show: true, barWidth: 0.5, align: "center" },
+														            data: dataArray
+														        }]);
 						                                       // $('#responsesDiv').trigger("create");
 															}
 															});
@@ -192,6 +216,7 @@ function refresh() {
                                         $('#responsesDiv').empty();
                                         $('#studentSessionMessageDiv').after(responsesDiv);
                                         $('#responsesDiv').trigger("create");
+                                    }
                                     }
 
                                 });

@@ -49,12 +49,16 @@ function getSession($sessionID)
 	$sql = sprintf("SELECT * FROM Sessions WHERE id = %s", mysql_real_escape_string($sessionID));
 	$sessionresult = getDbResultRecord($sql);
 
-
+	if($username == $sessionresult['creator'])
+	{
 	$sql = sprintf("SELECT * FROM Questions WHERE sessionid = %s", mysql_real_escape_string($sessionID));
 	$questions = getDbResultsArray($sql);
-
+	}
 	$sql = sprintf("SELECT * FROM Questions WHERE sessionid = %s AND ispolling = 1", mysql_real_escape_string($sessionID));
 	$pollingquestion = getDbResultRecord($sql);
+	unset($pollingquestion['correctanswerchoice']);
+	unset($pollingquestion['incorrectpoints']);
+	unset($pollingquestion['correctpoints']);
 
 	$results = array("session" => $sessionresult, "questions" => array_values($questions), "pollingquestion" => $pollingquestion);
 	header("Content-type: application/json");
@@ -86,6 +90,10 @@ function postSession($sessionID, $name, $isOpen)
 	$sql = sprintf($sql, $name, $isOpen, $username, $sessionID);
 
 	$result = getDBResultAffected($sql);
+
+	$sql = sprintf("UPDATE Questions SET ispolling = 0 WHERE sessionid=%s", $sessionID);
+	$result2 = getDBResultAffected($sql);
+
 	echo json_encode($result);
 }
 
@@ -176,7 +184,7 @@ function putQuestion($answerChoices, $correctAns, $incPoints, $corrPoints, $isPo
 
 function postQuestion($questionID, $answerChoices, $correctAns, $incPoints, $corrPoints, $isPolling, $questiontype, $sessionID){
 
-	$sql = sprintf("UPDATE Questions SET sessionid = %s, questiontype = %s, numanswerchoices = %s, correctanswerchoice=%s, incorrectpoints=%s, correctpoints=%s, ispolling=%s)
+	$sql = sprintf("UPDATE Questions SET sessionid = %s, questiontype = %s, numanswerchoices = %s, correctanswerchoice=%s, incorrectpoints=%s, correctpoints=%s, ispolling=%s
 						WHERE id=%s", 
 						mysql_real_escape_string($sessionID), 
 						mysql_real_escape_string($questiontype), 
@@ -191,6 +199,25 @@ function postQuestion($questionID, $answerChoices, $correctAns, $incPoints, $cor
 	header("Content-type: application/json");
 
 	echo json_encode($results);
+}
+
+function getQuestion($questionID)
+{	
+	$sql = sprintf("SELECT * FROM Questions WHERE id=%s",
+				mysql_real_escape_string($questionID));
+		
+	$results = getDBResultsArray($sql);	
+
+	unset($results['correctanswerchoice']);
+	unset($results['incorrectpoints']);
+	unset($results['correctpoints']);
+
+	header("Content-type: application/json");
+
+	
+	echo json_encode($results);
+
+	
 }
 
 ?>

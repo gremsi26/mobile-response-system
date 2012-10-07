@@ -26,14 +26,29 @@ $("#runPage").live("pageshow",function(event){
 
 function loadSessionPage(session_id,session_name){
 	var fieldset_questions = $("#sessionQuestionsList"),
-		fieldset_legend = $("<legend>").append("Activate a Question:"),
+		span_session_id = $("<span>",{id: "span_session_id", text: session_id}),
+		span_session_name = $("<span>",{id: "span_session_name", text: session_name}),
+		fieldset_legend = $("<legend>").append("Session ID: ",span_session_id, " | Session Name: ",span_session_name," | Activate a Question:"),
 		array_question_data = new Array();
-	fieldset_questions.html("").append(fieldset_legend);
+	fieldset_questions.html("").append("Waiting for AJAX");
 	$.ajax({
 		url: "api/sessions/" + session_id,
 		type: "GET",
 		dataType: "json",
-		success: function(questions_data){
+		success: function(questions_data){	
+			$.ajax({
+				url: "api/sessions/" + session_id,
+				type: "POST",
+				dataType: "json",
+				data: {
+					"name": session_name,
+					"isOpen": 1
+				},
+				success: function(data){
+
+				}
+			});
+			fieldset_questions.html("").append(fieldset_legend);
 			$.each(questions_data.questions, function(index,question){
 				var input_id = index+1+"-input";
 				array_question_data.push(question);
@@ -46,7 +61,6 @@ function loadSessionPage(session_id,session_name){
 							array_previous_selection = $("input[alt=activated]",fieldset_questions);
 							if(array_previous_selection.length !== 0){
 								var input_previous_selection = $(array_previous_selection[0]);
-								console.log(input_previous_selection);
 								input_previous_selection.attr("alt","");
 								var previous_index = input_previous_selection.attr("value");
 								var previous_question_data = array_question_data[previous_index];
@@ -66,7 +80,7 @@ function loadSessionPage(session_id,session_name){
 										"sessionid": previous_question_data.sessionid
 									},
 									success: function(data){
-
+										
 									}
 								})
 
@@ -88,7 +102,6 @@ function loadSessionPage(session_id,session_name){
 									"sessionid": question.sessionid
 								},
 								success: function(data){
-
 								}
 							})
 						}
@@ -144,6 +157,25 @@ function loadSessionPage(session_id,session_name){
 
 			fieldset_questions.append(stop_active_btn,stop_active_lbl);
 			fieldset_questions.trigger("create");
+		}
+	});
+}
+
+function closeSession(){
+	var session_id = $("#span_session_id").html(),
+		session_name = $("#span_session_name").html(),
+	session_id = Number(session_id);
+
+	$.ajax({
+		url: "api/sessions/" + session_id,
+		type: "POST",
+		dataType: "json",
+		data: {
+			"name": session_name,
+			"isOpen": 0
+		},
+		success: function(data){
+
 		}
 	});
 }

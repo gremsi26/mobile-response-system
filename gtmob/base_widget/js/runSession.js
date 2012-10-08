@@ -1,4 +1,5 @@
 $("#runPage").live("pageshow",function(event){
+	$("#professorResponseGraph").empty();
 	$.ajax({
 		url: "http://m.cip.gatech.edu/developer/hkw/api/base_widget/sessions",
 		type: "GET",
@@ -80,7 +81,7 @@ function loadSessionPage(session_id,session_name){
 										"sessionid": previous_question_data.sessionid
 									},
 									success: function(data){
-										
+										$("#professorResponseGraph").empty();
 									}
 								})
 
@@ -102,6 +103,7 @@ function loadSessionPage(session_id,session_name){
 									"sessionid": question.sessionid
 								},
 								success: function(data){
+									pollResults(question.id,question.numanswerchoices,index);
 								}
 							})
 						}
@@ -143,7 +145,7 @@ function loadSessionPage(session_id,session_name){
 										"sessionid": previous_question_data.sessionid
 									},
 									success: function(data){
-
+										$("#professorResponseGraph").empty();
 									}
 								})
 
@@ -176,6 +178,83 @@ function closeSession(){
 		},
 		success: function(data){
 
+		}
+	});
+}
+
+function pollResults(previous_question_id,previous_num_choices,previous_index){
+	$.ajax({
+		url: "api/results/"+previous_question_id,
+		context: document.body,
+		type: 'GET',
+		async: false,
+		data: {
+		    'aggregate': "1"
+		},
+		dataType: "json",
+		//header: {'X-HTTP-Method-Override': 'PUT'},
+		success: function (data) {
+			//console.log("Responses Results: "+JSON.stringify(data));
+			
+			var options = {
+				bars: { show: true, barWidth: 0.5, }
+				//xaxis: { tickDecimals: 0, tickSize: 1 }
+			};
+			
+			var dataArray = [];
+			var dataCount = 0;
+			var i;
+			for(i = 0; i<previous_num_choices; i++)
+			{
+				if(data[dataCount] == undefined)
+				{
+					var choiceArray = [(i+1),0];
+					dataArray[i] = choiceArray;																
+				}
+				else if((i+1)== data[dataCount].choice)
+				{
+					var choiceArray = [data[dataCount].choice, data[dataCount]["COUNT(choice)"]];
+					dataArray[i] = choiceArray;	
+					dataCount++;
+				}
+				else
+				{
+					var choiceArray = [(i+1),0];
+					dataArray[i] = choiceArray;																			
+				}
+				
+			}
+			
+			//console.log("Data Array: "+dataArray+" : "+numanswerchoices);
+			//chart will be placed in this div!
+			var graphContainer = $("#professorResponseGraph"),
+			placeholder = $("<div>", {
+            	id: "responsesDiv",
+            	height: 300
+        	});
+			graphContainer.empty();
+        	graphContainer.append(placeholder);
+			//placeholder.height 
+			$.plot(placeholder, [{
+				label: "Question "+ (previous_index + 1) +" Responses ("+ previous_num_choices +" Choices)",
+				yaxis: {min: 0, max:24, tickSize: 1, tickDecimals: 0},
+				xaxis: {min: 0, max:24, tickSize: 1, tickDecimals: 0},
+		        bars: { show: true, barWidth: 0.5, align: "center" },
+		        data: dataArray
+		    }]);
+		   // $('#responsesDiv').trigger("create");
+		   $.ajax({
+				url: "api/questions/"+previous_question_id,
+				type: 'GET',
+				async: false,
+				dataType: "json",
+				success: function(question_data){
+					console.log(typeof question_data[0].ispolling, question_data[0].ispolling);
+					if(Number(question_data[0].ispolling) === 1){
+						setTimeout(function() { pollResults(previous_question_id,previous_num_choices,previous_index); }, 1000);
+					}
+				}
+			})
 		}
 	});
 }

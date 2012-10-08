@@ -85,7 +85,7 @@
 			<action file="action.php"><![CDATA[
 				if(!isset($_GET['aggregate']) || $_GET['aggregate'] == 0)
 				{
-					echo getResults($_REST['results']);
+					echo getResults($_REST['results'], $_GET['reporttype']);
 				}
 				else if(isset($_GET['aggregate']) && $_GET['aggregate'] == 1)
 				{

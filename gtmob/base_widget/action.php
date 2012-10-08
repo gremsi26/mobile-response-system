@@ -144,11 +144,25 @@ function putResponse($questionID, $answer)
 
 
 //Returns the response results for a question if they exist and the question is not currently polling
-function getResults($questionID)
+function getResults($ID, $reportType, $sessionID)
 {
-	$sql = sprintf("SELECT * FROM Responses WHERE questionid = %s", mysql_real_escape_string($questionID));
+	if($reportType == "questions"){
+		$sql = sprintf("SELECT * FROM Responses WHERE questionid = %s", mysql_real_escape_string($ID));
 
-	$results = getDbResultsArray($sql);
+		$results = getDbResultsArray($sql);
+	}
+	else if($reportType == "students")
+	{
+		$sql = sprintf("SELECT Responses.responder, COUNT( Responses.id ) 
+					FROM Questions
+					INNER JOIN Responses ON Questions.id = Responses.questionid
+					WHERE Questions.correctanswerchoice = Responses.choice
+					AND sessionid =%s
+					GROUP BY Responses.responder", mysql_real_escape_string($ID));
+
+		$results = getDbResultsArray($sql);
+			
+	}
 	
 	header("Content-type: application/json");
 	echo json_encode($results);

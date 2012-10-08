@@ -15,8 +15,9 @@
 </div>
 
 
-<div data-role="page" data-add-back-btn="true" id="professorPage">
+<div data-role="page" id="professorPage">
 	<div data-role="header">
+	<a href="#mainPage" data-icon="back" data-theme="a" class="ui-btn-left">Back</a>
 		<h1>MobRS</h1>
 	</div><!-- /header -->
 	<div data-role="content">
@@ -28,23 +29,9 @@
 	</div>
 </div>
 
-<div data-role="page" data-add-back-btn="true" id="activeSessionStudentPage">
+<div data-role="page" id="studentPage">
 	<div data-role="header">
-		<h1>MobRS</h1>
-	<a href="index.html" data-icon="refresh" data-theme="b" class="ui-btn-right">Refresh</a>
-	</div><!-- /header -->
-	<div data-role="content">
-		<form align="center">
-			No active question.
-		<input type="button"  data-theme="b" data-icon="delete" value="Exit Session" onclick="">
-	
-		</form>
-	</div>
-</div>
-
-
-<div data-role="page" data-add-back-btn="true" id="studentPage">
-	<div data-role="header">
+	<a href="#mainPage" data-icon="back" data-theme="a" class="ui-btn-left">Back</a>
 		<h1>MobRS</h1>
 		<a data-icon="refresh" onclick="refresh()" data-theme="b" class="ui-btn-right">Refresh</a>
 	</div><!-- /header -->
@@ -59,8 +46,9 @@
 	</div> 
 </div>
 
-<div data-role="page" data-add-back-btn="true" id="createPage">
+<div data-role="page" id="createPage">
 	<div data-role="header">
+	<a href="#professorPage" data-icon="back" data-theme="a" class="ui-btn-left">Back</a>
 		<h1>MobRS</h1>
 		<a href="" data-icon="check" data-theme="b" class="ui-btn-right" onclick="saveSession()">Save</a>
 	</div><!-- /header -->
@@ -85,8 +73,9 @@
 	
 </div>
 
-<div data-role="page" data-add-back-btn="true" id="runPage">
+<div data-role="page" id="runPage">
 	<div data-role="header">
+	<a href="#professorPage" data-icon="back" data-theme="a" class="ui-btn-left">Back</a>
 		<h1>MobRS</h1>
 	</div><!-- /header -->
 	<div data-role="content">
@@ -95,19 +84,22 @@
 	</div>
 </div>
 
-<div data-role="page" data-add-back-btn="true" id="sessionPage">
+<div data-role="page" id="sessionPage">
 	<div data-role="header">
+	<a href="#runPage" data-icon="back" data-theme="a" class="ui-btn-left">Back</a>
 		<h1>MobRS</h1>
-		<a href="#mainPage" data-icon="check" data-theme="r" class="ui-btn-right" onclick="closeSession()">Close Session</a>
+		<a href="#runPage" data-icon="check" data-theme="r" class="ui-btn-right" onclick="closeSession()">Close Session</a>
 	</div><!-- /header -->
 	<div data-role="content">
 		<ul data-role="listview" data-inset="true" id="sessionQuestionsList">
 		</ul>
+		<div id="professorResponseGraph" height="300"></div>
 	</div>
 </div>
 
-<div data-role="page" data-add-back-btn="true" id="reviewPage">
+<div data-role="page" id="reviewPage">
 	<div data-role="header">
+	<a href="#professorPage" data-icon="back" data-theme="a" class="ui-btn-left">Back</a>
 		<h1>MobRS</h1>
 	</div><!-- /header -->
 	<div data-role="content">
@@ -116,11 +108,14 @@
 	</div>
 </div>
 
-<div data-role="page" data-add-back-btn="true" id="resultsPage">
+<div data-role="page" id="resultsPage">
 	<div data-role="header">
+	<a href="#professorPage" data-icon="back" data-theme="a" class="ui-btn-left">Back</a>
 		<h1>MobRS</h1>
 	</div><!-- /header -->
 	<div data-role="content">
+		<ul data-role="listview" data-inset="true" data-theme="a" id="optionsList">
+		</ul>
 		<ul data-role="listview" data-inset="true" id="resultsList">
 		</ul>
 	</div>

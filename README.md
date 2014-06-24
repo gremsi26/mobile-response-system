@@ -1,4 +1,6 @@
 mobile-response-system
 ======================
 
-a mobile response system for GT
+Our project is designed to be a complete replacement for the current Student Response System provided by TurningPoint.  The turning point system requires students to purchase a $50 ‘clicker’ device or purchase a 3 month subscription to their mobile service (the semester is 3.5 months long), which is not optimum for students who are already being hit with tuition and fee increases virtually every semester.  Additionally, professors and TAs have complained about the software that comes with TurningPoint for managing sessions and collecting student responses; it has caused issues with some classes’ gradebooks in the past and has generally been very unreliable.    
+
+The solution to this is a web-based, GTMob plugin that will make use of location services when available and alternate location-detection when not available that will allow students to effectively “bring their own device” as a personal response device.  We also plan to allow professors to upload a gradebook CSV file from Sakai, which will then be populated with the student’s PRS scores.  This file can then be downloaded from our tool on GTMob and reuploaded to Sakai, importing grades. 
